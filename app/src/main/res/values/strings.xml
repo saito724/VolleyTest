@@ -3,5 +3,22 @@
 
     <string name="app_name">VolleyTest</string>
     <string name="hello_world">Hello world!</string>
+    <string name="url_param_tokyo">130010</string>
+    <string name="url_param_ooita">440010</string>
+    <string name="url_param_naha">471010</string>
+    <string name="url_param_sapporo">016010</string>
+    <string name="url_param_sendai">040010</string>
+    <string name="url_param_saitama">110010</string>
+    <string name="url_param_niigata">150010</string>
+    <string name="url_param_koufu">190010</string>
+    <string name="url_param_nagoya">230010</string>
+
+    <array name="weather_array">
+        <item>@string/url_param_tokyo</item>
+        <item>@string/url_param_naha</item>
+        <item>@string/url_param_sapporo</item>
+        <item>@string/url_param_saitama</item>
+        <item>@string/url_param_nagoya</item>
+    </array>
 
 </resources>
