@@ -3,7 +3,6 @@ package com.e.saito.volleytest.app;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.util.LruCache;
 
 
@@ -18,15 +17,18 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.e.saito.volleytest.api.BookApi;
 import com.e.saito.volleytest.data.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 
 public class MainActivity extends BaseActivity {
     private ArrayList<Book> mBookList;
     private ListView mListView;
+    private RequestQueue mRequestQueue;
 
 
     @Override
@@ -34,15 +36,29 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mBookList = new ArrayList<Book>();
+        loadBooks();
+
+        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+
         mListView = (ListView)findViewById(R.id.listView);
-        mListView.setAdapter(new MyAdapter(this, mBookList, Volley.newRequestQueue(getApplicationContext())));
+        mListView.setAdapter(new MyAdapter(this, mBookList,mRequestQueue));
 
     }
 
     private void loadBooks(){
         //Todo bookdata load
-        //show loading dialog
-        //load data and add array
+        showLoadingDialog();
+       new BookApi().getBookData(mRequestQueue, new BookApi.BookListener() {
+           @Override
+           public void onLoadSucces(ArrayList<Book> bookList) {
+                mBookList = bookList;
+           }
+
+           @Override
+           public void onLoadError() {
+
+           }
+       });
 
         //dismiss dialog
     }
