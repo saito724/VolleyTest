@@ -15,6 +15,11 @@
         android:id="@+id/ivphoto"
         android:layout_margin="2dp"/>
 
+<!--    <com.android.volley.toolbox.NetworkImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/book_photo"/>-->
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"

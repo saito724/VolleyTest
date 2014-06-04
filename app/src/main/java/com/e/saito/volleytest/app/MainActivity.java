@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private ArrayList<Book> mBookList;
     private ListView mListView;
     private RequestQueue mRequestQueue;
+    private MyAdapter mAdapter;
 
 
     @Override
@@ -36,26 +38,28 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mBookList = new ArrayList<Book>();
-        loadBooks();
 
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-
         mListView = (ListView)findViewById(R.id.listView);
-        mListView.setAdapter(new MyAdapter(this, mBookList,mRequestQueue));
+        mAdapter = new MyAdapter(this, mBookList,mRequestQueue);
+        mListView.setAdapter(mAdapter);
+
+        loadBooks();
 
     }
 
     private void loadBooks(){
         //Todo bookdata load
         showLoadingDialog();
-       new BookApi().getBookData(mRequestQueue, new BookApi.BookListener() {
+       new BookApi().getXmlBookData(mRequestQueue, new BookApi.BookListener() {
            @Override
-           public void onLoadSucces(ArrayList<Book> bookList) {
+           public void onLoadSucccess(ArrayList<Book> bookList) {
                 mBookList = bookList;
+                mAdapter.notifyDataSetChanged();
            }
-
            @Override
            public void onLoadError() {
+               Toast.makeText(MainActivity.this,"ERROR!!!!!!!!!!!!!!!!!!!",Toast.LENGTH_SHORT).show();
 
            }
        });
@@ -90,13 +94,13 @@ public class MainActivity extends BaseActivity {
             }
              Book  book = getItem(position);
 
-             holder.contentView.setText(book.contents);
+             holder.contentView.setText(book.Kaisetsu);
 
             ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.imgView,
                     android.R.drawable.spinner_background,
                     android.R.drawable.ic_dialog_alert);
 
-            mImgLoader.get(book.imgURL,listener);
+            mImgLoader.get(book.getImgUrl(),listener);
             return  convertView;
         }
 
