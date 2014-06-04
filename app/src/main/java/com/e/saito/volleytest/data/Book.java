@@ -7,6 +7,7 @@ public class Book {
     public final String URL_BOOK_IMG = "http://www.hanmoto.com/bd/img/";
     public final String BOOK_IMG_EXTENSION = ".jpg";
 
+
     public int id;
     public String title;
     public String isbn;
@@ -14,7 +15,7 @@ public class Book {
     public String publisher;
     public String Kaisetsu;
     public String DetailPageURL;
-    public GenreInfo genreInfo;
+
 
     public class  GenreInfo{
         public Genre genre1;

@@ -8,8 +8,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.StringReader;
-
-import javax.xml.xpath.XPathException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by e.saito on 2014/06/04.
@@ -17,15 +17,14 @@ import javax.xml.xpath.XPathException;
 public class XmlUtil {
 
 
-
-  /*
-        method for debug  */
-    public static void  parseTest (String xmlContents) {
+    /*
+          method for debug  */
+    public static void parseTest(String xmlContents) {
         XmlPullParser xmlPullParser = Xml.newPullParser();
 
-        try{
+        try {
             xmlPullParser.setInput(new StringReader(xmlContents));
-        }catch (XmlPullParserException e){
+        } catch (XmlPullParserException e) {
             e.printStackTrace();
         }
 
@@ -36,32 +35,29 @@ public class XmlUtil {
                     case XmlPullParser.START_DOCUMENT:
                         Log.d("XmlPullParser", "START_DOCUMENT");
                         break;
-                    case  XmlPullParser.END_DOCUMENT:
-                        Log.d("XmlPullParser","END_DOCUMENT");
+                    case XmlPullParser.END_DOCUMENT:
+                        Log.d("XmlPullParser", "END_DOCUMENT");
 
                         break;
-                    case  XmlPullParser.START_TAG:
-                        Log.d("XmlPullParser","START_TAG: " + xmlPullParser.getName());
+                    case XmlPullParser.START_TAG:
+                        Log.d("XmlPullParser", "START_TAG: " + xmlPullParser.getName());
                         break;
-                    case  XmlPullParser.END_TAG:
-                        Log.d("XmlPullParser","END_TAG: "+ xmlPullParser.getName());
+                    case XmlPullParser.END_TAG:
+                        Log.d("XmlPullParser", "END_TAG: " + xmlPullParser.getName());
                         break;
-                    case  XmlPullParser.TEXT:
-                        Log.d("XmlPullParser","TEXT: <"+ xmlPullParser.getName() + ">" + xmlPullParser.getText());
+                    case XmlPullParser.TEXT:
+                        Log.d("XmlPullParser", "TEXT: " + xmlPullParser.getText());
                         break;
                     default:
-                        Log.d("XmlPullParser","no mach  Event type:"+ Integer.toString(eventType));
+                        Log.d("XmlPullParser", "no mach  Event type:" + Integer.toString(eventType));
                 }
                 eventType = xmlPullParser.next();
             }
-        }catch (XmlPullParserException e){
+        } catch (XmlPullParserException e) {
             e.printStackTrace();
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-
-
 
     }
 
