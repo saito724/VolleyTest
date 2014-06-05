@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="4dp"
+              android:layout_marginLeft="6dp"
+              android:layout_marginRight="6dp"
+              android:layout_marginTop="4dp"
+              android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/ivphoto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/ivphoto"
         android:layout_margin="2dp"/>
 
-<!--    <com.android.volley.toolbox.NetworkImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id = "@+id/book_photo"/>-->
+    <!--    <com.android.volley.toolbox.NetworkImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id = "@+id/book_photo"/>-->
 
-    <TextView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Sample"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/tvContents"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/tvContents"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:text="Sample"/>
+
+        <TextView
+            android:id="@+id/tvPublsher"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@android:color/darker_gray"
+            android:text="publisher"/>
+
+    </LinearLayout>
 
 </LinearLayout>

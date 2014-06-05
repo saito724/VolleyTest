@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.e.saito.volleytest.data.Book;
+import com.e.saito.volleytest.util.StringUtil;
 import com.e.saito.volleytest.util.XmlUtil;
 
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Created by e.saito on 2014/06/03.
  */
 public class BookApi {
-    public final String URL_BOOK = "http://www.hanmoto.com/api/Operation=ItemSearch&SearchIndex=Books&Keywords=Android";
+    public final String URL_BOOK = "http://www.hanmoto.com/api/Operation=ItemSearch&SearchIndex=Books&Keywords=the";
 
     public static final String TAG_ITEM = "Item";
     public static final String TAG_TITLE = "Title";
@@ -61,16 +62,15 @@ public class BookApi {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-
                         try {
                             listener.onLoadSucccess(parseXmlBook(response));
+                            Log.d("onLoadSucccess", "onLoadSucccess");
                         } catch (XmlPullParserException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                           XmlUtil.parseTest(response);
+                          // XmlUtil.parseTest(response);
                     }
                     //   XmlUtil.parseTest(response);
                 },
@@ -78,6 +78,7 @@ public class BookApi {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Response.ErrorListener", "error!!!!!!!!");
+                        Log.d("Response.ErrorListener", error.getLocalizedMessage());
                         listener.onLoadError();
                         error.printStackTrace();
                     }
@@ -97,22 +98,32 @@ public class BookApi {
 
 
     public static ArrayList<Book> parseXmlBook(String xmlString) throws XmlPullParserException, IOException {
+
         XmlPullParser xmlPullParser = Xml.newPullParser();
         xmlPullParser.setInput(new StringReader(xmlString));
         int eventType = xmlPullParser.getEventType();
-
+        Log.d("getColumnNumber", ":" + xmlPullParser.getColumnNumber());
+        Log.d("getInputEncoding",":" + xmlPullParser.getInputEncoding());
+        Log.d("getDepth",":" + xmlPullParser.getDepth());
         if (eventType != XmlPullParser.START_DOCUMENT) {
             return null;
         }
 
         ArrayList<Book> bookList = new ArrayList<Book>();
-
         while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName() == TAG_ITEM) {
+            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals(TAG_ITEM) ){
                 eventType = xmlPullParser.next();
                 Book book = new Book();
-                while (xmlPullParser.getName() != TAG_ITEM  && eventType != XmlPullParser.END_TAG ) {
+                while (true) {
+                    if(eventType == XmlPullParser.END_DOCUMENT
+                            || (eventType == XmlPullParser.END_TAG   &&  xmlPullParser.getName().equals(TAG_ITEM))){
+                        Log.d("1:", Boolean.toString(eventType != XmlPullParser.END_DOCUMENT));
+                        Log.d("2:", Boolean.toString( eventType == XmlPullParser.END_TAG ));
+                        Log.d("3:", Boolean.toString(xmlPullParser.getName().equals(TAG_ITEM)));
+                        break;
+                    }
                     if(eventType == XmlPullParser.START_TAG) {
+                        Log.d("bigin inner while",xmlPullParser.getName());
                         String name = xmlPullParser.getName();
                         if (name.equals(TAG_TITLE)) {
                             book.title = xmlPullParser.nextText();
@@ -121,14 +132,19 @@ public class BookApi {
                             book.isbn = xmlPullParser.nextText();
                             Log.d("xmlparse isbn:",book.isbn);
                         } else if (name.equals(TAG_KAISETU)) {
-                            book.Kaisetsu = xmlPullParser.nextText();
-                            Log.d("xmlparse Kaisetsu:",book.Kaisetsu);
+                            book.kaisetu = xmlPullParser.nextText();
+                            Log.d("xmlparse Kaisetsu:",book.kaisetu);
                         } else if (name.equals(TAG_PUBLISHER)) {
                             book.publisher = xmlPullParser.nextText();
                             Log.d("xmlparse publisher:",book.publisher);
+                        } else if (name.equals(TAG_DETAIL_PAGE_URL)) {
+                            book.detailPageURL = xmlPullParser.nextText();
+                            Log.d("xmlparse publisher:",book.detailPageURL);
                         }
+
                     }
                     eventType = xmlPullParser.next();
+
                 }//end while
                 bookList.add(book);
             }//end if
